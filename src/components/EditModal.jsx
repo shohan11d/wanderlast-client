@@ -46,11 +46,9 @@ export function EditModal({ destination }) {
   };
   return (
     <Modal>
-      <div className="flex justify-end">
-        <Button variant="outline" className={`rounded-none mt-5 mb-3`}>
+        <Button variant="outline" className={`rounded-none `}>
           <BiEdit /> Edit
         </Button>
-      </div>{" "}
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-xl">
