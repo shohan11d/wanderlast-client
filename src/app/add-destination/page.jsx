@@ -13,6 +13,7 @@ import {
 } from "@heroui/react";
 
 export default function AddDestinationPage() {
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
