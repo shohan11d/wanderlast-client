@@ -14,7 +14,11 @@ export default function Navbar() {
         </li>
 
         <li>
-          <Link href={"/destinations"}>Destinations</Link>
+          <Link href={"/my-bookings"}>My Bookings</Link>
+        </li>
+
+        <li>
+          <Link href={"/add-destination"}>Add Destination</Link>
         </li>
       </ul>
 
