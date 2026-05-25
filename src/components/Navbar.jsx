@@ -37,7 +37,7 @@ export default function Navbar() {
         </li>
 
         <li>
-          <Link href={"/destinations"}>Login</Link>
+          <Link href={"/login"}>Login</Link>
         </li>
 
         <li>
