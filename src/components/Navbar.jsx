@@ -9,7 +9,6 @@ export default function Navbar() {
   console.log(session);
 
   const user = session?.user;
-  console.log(user);
 
 
   const handleSignOut = async () => {

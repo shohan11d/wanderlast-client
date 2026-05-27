@@ -1,3 +1,4 @@
+import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
 import { Button } from "@heroui/react";
@@ -31,22 +32,22 @@ export default async function DestinationDetailsPage({ params }) {
         alt={destinationName}
         className="w-full h-100 object-cover"
       />
-      <div className="p-2">
-        <div className="flex items-center gap-2">
-          <LuMapPin /> <span>{country}</span>
+      <div className="flex justify-between">
+        <div className="p-2">
+          <div className="flex items-center gap-2">
+            <LuMapPin /> <span>{country}</span>
+          </div>
+          <div className="flex justify-between">
+            <h2 className="text-xl font-bold">{destinationName}</h2>
+          </div>
+          <div className="flex items-center gap-1">
+            <FaRegCalendar /> {duration}
+          </div>
+        
+          <h1 className="mt-10 text-2xl font-bold">Overview</h1>
+          <p>{description}</p>
         </div>
-        <div className="flex justify-between">
-          <h2 className="text-xl font-bold">{destinationName}</h2>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <FaRegCalendar /> {duration}
-        </div>
-        <div className="text-2xl font-bold">
-          <h3>{price}</h3>
-        </div>
-        <h1 className="mt-10 text-2xl font-bold">Overview</h1>
-        <p>{description}</p>
+        <BookingCard destination={destination} />
       </div>
     </div>
   );
