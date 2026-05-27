@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function Navbar() {
   const { data: session } = authClient.useSession();
-  console.log(session);
 
   const user = session?.user;
 
