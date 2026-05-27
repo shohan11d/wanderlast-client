@@ -3,12 +3,13 @@ import { authClient } from "@/lib/auth-client";
 import { Button, Card } from "@heroui/react";
 import { DateField, Label } from "@heroui/react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function BookingCard({ destination }) {
   const { data: session } = authClient.useSession();
   console.log(session);
   const user = session?.user;
-  
+
   const [departureDate, setDepartureDate] = useState(null);
   const { price, _id, destinationName, imageUrl, country } = destination;
 
@@ -27,17 +28,24 @@ export default function BookingCard({ destination }) {
 
     console.log(bookingData);
 
-    const res = await fetch("http://localhost:5000/booking", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(bookingData),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/booking", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
 
-    const data = await res.json();
-    console.log(data);
-   
+      const data = await res.json();
+      console.log(data);
+
+      toast.success("You booked successfully")
+    } catch(err) {
+      if(err){
+        toast.error(err.message)
+      }
+    }
   };
 
   return (
