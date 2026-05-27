@@ -11,6 +11,11 @@ export default function Navbar() {
   const user = session?.user;
   console.log(user);
 
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
+
   return (
     <nav className="flex justify-between items-center bg-white p-5">
       <ul className="flex gap-3">
@@ -54,7 +59,7 @@ export default function Navbar() {
               </Avatar>
             </li>
             <li>
-              <Button>Logout</Button>
+              <Button onClick={handleSignOut}>Logout</Button>
             </li>
           </>
         ) : (

@@ -1,4 +1,5 @@
 "use client";
+import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/lib/auth-client";
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   Label,
   TextField,
   Card,
+  Separator,
 } from "@heroui/react";
 import { redirect } from "next/navigation";
 
@@ -28,12 +30,18 @@ export default function SignUpPage() {
 
     console.log("sign up data >", data);
     console.log("sign up error >", error);
-    if(data){
-        redirect("/")
+    if (data) {
+      redirect("/");
     }
     if (error) {
       alert(error.message);
     }
+  };
+
+  const handleGoogleSignin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -49,23 +57,12 @@ export default function SignUpPage() {
             <Input placeholder="Enter your name" />
             <FieldError />
           </TextField>
-          <TextField
-            isRequired
-            name="email"
-            type="email"
-          
-          >
+          <TextField isRequired name="email" type="email">
             <Label>Email</Label>
             <Input placeholder="john@example.com" />
             <FieldError />
           </TextField>
-          <TextField
-            isRequired
-            minLength={8}
-            name="password"
-            type="password"
-            
-          >
+          <TextField isRequired minLength={8} name="password" type="password">
             <Label>Password</Label>
             <Input placeholder="Enter your password" />
             <Description>
@@ -79,6 +76,21 @@ export default function SignUpPage() {
             </Button>
           </div>
         </Form>
+        <div className="flex justify-center items-center gap-3">
+          <Separator />
+          <div className="whitespace-nowrap">Or sign in with</div>
+          <Separator />
+        </div>
+        <div>
+          <Button
+            onClick={handleGoogleSignin}
+            className={`w-full rounded-none`}
+            variant="outline"
+          >
+            <FcGoogle className="mr-2" />
+            Sign in with Google
+          </Button>
+        </div>
       </Card>
     </div>
   );
