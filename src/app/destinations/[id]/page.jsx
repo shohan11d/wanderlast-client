@@ -11,7 +11,11 @@ export default async function DestinationDetailsPage({ params }) {
   const { id } = await params;
   console.log(id);
 
-  const res = await fetch(`http://localhost:5000/destination/${id}`);
+  const res = await fetch(`http://localhost:5000/destination/${id}`, {
+    headers: {
+      authorization: "logged in",
+    },
+  });
   const destination = await res.json();
 
   console.log(destination);
@@ -43,7 +47,7 @@ export default async function DestinationDetailsPage({ params }) {
           <div className="flex items-center gap-1">
             <FaRegCalendar /> {duration}
           </div>
-        
+
           <h1 className="mt-10 text-2xl font-bold">Overview</h1>
           <p>{description}</p>
         </div>
