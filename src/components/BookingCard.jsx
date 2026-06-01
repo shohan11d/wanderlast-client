@@ -29,10 +29,15 @@ export default function BookingCard({ destination }) {
     console.log(bookingData);
 
     try {
+
+      const {data:tokenData} = await authClient.token();
+      console.log("token", tokenData);
+
       const res = await fetch("http://localhost:5000/booking", {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          "authorization": `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(bookingData),
       });
