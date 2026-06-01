@@ -1,7 +1,9 @@
 import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
+import { auth } from "@/lib/auth";
 import { Button } from "@heroui/react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
 import { FaRegCalendar } from "react-icons/fa";
@@ -9,11 +11,16 @@ import { LuMapPin } from "react-icons/lu";
 
 export default async function DestinationDetailsPage({ params }) {
   const { id } = await params;
-  console.log(id);
+
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
+
+  console.log("token", token);
 
   const res = await fetch(`http://localhost:5000/destination/${id}`, {
     headers: {
-      authorization: "logged in",
+      authorization: `Bearer ${token}`,
     },
   });
   const destination = await res.json();
