@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
@@ -15,30 +16,48 @@ import {
 } from "@heroui/react";
 import { BiEdit } from "react-icons/bi";
 
-export function EditModal({ destination }) {
+export function EditModal({ tutor, token }) {
+
+  const { data: session } = authClient.useSession();
+  console.log("session", session?.user.id);
+  const userId = session?.user?.id;
   const {
-    destinationName,
     _id,
-    price,
-    duration,
-    country,
     imageUrl,
-    category,
-    description,
-    departureDate,
-  } = destination;
+    tutorName,
+    location,
+    mode,
+    price,
+    slot,
+    startDate,
+    subject,
+  } = tutor;
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const destination = Object.fromEntries(formData.entries());
-    console.log("New Destination:", destination);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`, {
-      method: "PATCH",
+    const formData = new FormData(e.currentTarget);
+    const studentData = Object.fromEntries(formData.entries());
+    console.log("student Data:", studentData);
+    const { phone, studentEmail, studentName, tutorId, tutorName } =
+      studentData;
+
+    const bookingData = {
+      studentName,
+      studentEmail,
+      phone,
+      tutorId,
+      tutorName,
+      studentId:userId,
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/student`, {
+      method: "POST",
       headers: {
         "content-type": "application/json",
+        "authorization": `Bearer ${token}`,
       },
-      body: JSON.stringify(destination),
+      body: JSON.stringify(bookingData),
     });
 
     const data = await res.json();
@@ -46,15 +65,15 @@ export function EditModal({ destination }) {
   };
   return (
     <Modal>
-        <Button variant="outline" className={`rounded-none `}>
-          <BiEdit /> Edit
-        </Button>
+      <Button variant="primary" className={`rounded-sm `}>
+        <BiEdit /> Book
+      </Button>
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-xl">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Heading>Edit Destination</Modal.Heading>
+              <Modal.Heading>Student Details</Modal.Heading>
             </Modal.Header>
             <Modal.Body className="p-6">
               <Surface variant="default">
@@ -63,154 +82,85 @@ export function EditModal({ destination }) {
                     {/* Destination Name */}
                     <div className="md:col-span-2">
                       <TextField
-                        name="destinationName"
+                        name="studentName"
                         isRequired
-                        defaultValue={destinationName}
+                        defaultValue="Rahim"
                       >
-                        <Label>Destination Name</Label>
-                        <Input
-                          placeholder="Bali Paradise"
-                          className="rounded-2xl"
-                        />
+                        <Label>Student Name</Label>
+                        <Input placeholder="John Doe" className="rounded-2xl" />
                         <FieldError />
                       </TextField>
                     </div>
 
                     {/* Country */}
-                    <TextField name="country" defaultValue={country} isRequired>
-                      <Label>Country</Label>
+                    <TextField
+                      name="tutorName"
+                      defaultValue={tutorName}
+                      isRequired
+                    >
+                      <Label>Tutor Name</Label>
                       <Input placeholder="Indonesia" className="rounded-2xl" />
                       <FieldError />
                     </TextField>
 
                     {/* Category - Updated Select Component */}
-                    <div>
-                      <Select
-                        name="category"
-                        isRequired
-                        className="w-full"
-                        placeholder="Select category"
-                        defaultValue={category}
-                      >
-                        <Label>Category</Label>
-                        <Select.Trigger className="rounded-2xl">
-                          <Select.Value />
-                          <Select.Indicator />
-                        </Select.Trigger>
-                        <Select.Popover>
-                          <ListBox>
-                            <ListBox.Item id="Beach" textValue="Beach">
-                              Beach
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                            <ListBox.Item id="Mountain" textValue="Mountain">
-                              Mountain
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                            <ListBox.Item id="City" textValue="City">
-                              City
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                            <ListBox.Item id="Adventure" textValue="Adventure">
-                              Adventure
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                            <ListBox.Item id="Cultural" textValue="Cultural">
-                              Cultural
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                            <ListBox.Item id="Luxury" textValue="Luxury">
-                              Luxury
-                              <ListBox.ItemIndicator />
-                            </ListBox.Item>
-                          </ListBox>
-                        </Select.Popover>
-                      </Select>
-                    </div>
 
                     {/* Price */}
                     <TextField
-                      name="price"
+                      name="phone"
                       type="number"
                       isRequired
-                      defaultValue={price}
+                      defaultValue="01343583233"
                     >
-                      <Label>Price (USD)</Label>
-                      <Input
-                        type="number"
-                        placeholder="1299"
-                        className="rounded-2xl"
-                      />
+                      <Label>Phone Number</Label>
+                      <Input type="number" className="rounded-2xl" />
                       <FieldError />
                     </TextField>
 
-                    {/* Duration */}
                     <TextField
-                      name="duration"
+                      name="tutorId"
+                      type="text"
                       isRequired
-                      defaultValue={duration}
+                      defaultValue={`${_id}`}
                     >
-                      <Label>Duration</Label>
-                      <Input
-                        placeholder="7 Days / 6 Nights"
-                        className="rounded-2xl"
-                      />
+                      <Label>Tutor ID</Label>
+                      <Input type="text" className="rounded-2xl" />
                       <FieldError />
                     </TextField>
-
-                    {/* Departure Date */}
-                    <div className="md:col-span-2">
-                      <TextField
-                        name="departureDate"
-                        type="date"
-                        isRequired
-                        defaultValue={departureDate}
-                      >
-                        <Label>Departure Date</Label>
-                        <Input type="date" className="rounded-2xl" />
-                        <FieldError />
-                      </TextField>
-                    </div>
-
-                    {/* Image URL - Removed preview */}
-                    <div className="md:col-span-2">
-                      <TextField
-                        name="imageUrl"
-                        defaultValue={imageUrl}
-                        isRequired
-                      >
-                        <Label>Image URL</Label>
-                        <Input
-                          type="url"
-                          placeholder="https://example.com/bali-paradise.jpg"
-                          className="rounded-2xl"
-                        />
-                        <FieldError />
-                      </TextField>
-                    </div>
-
-                    {/* Description */}
-                    <div className="md:col-span-2">
-                      <TextField
-                        name="description"
-                        defaultValue={description}
-                        isRequired
-                      >
-                        <Label>Description</Label>
-                        <TextArea
-                          placeholder="Describe the travel experience..."
-                          className="rounded-3xl"
-                        />
-                        <FieldError />
-                      </TextField>
-                    </div>
+                    <TextField
+                      name="studentEmail"
+                      type="email"
+                      isRequired
+                      defaultValue={`rahimbd880@gmail.com`}
+                    >
+                      <Label>Student Email</Label>
+                      <Input type="email" className="rounded-2xl" />
+                      <FieldError />
+                    </TextField>
                   </div>
 
                   {/* Buttons */}
 
                   <Modal.Footer>
-                
-                    <Button type="submit" slot="close">Save</Button>
+                    {slot > 0 ? (
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-2 bg-green-800 text-white rounded-full">
+                          Book Status: Available
+                        </span>
+                        <Button type="submit" slot="close">
+                          Book Now
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-2 bg-red-800 text-white rounded-full">
+                          Book Status: Not Available
+                        </span>
+                        <Button disabled type="submit" slot="close">
+                          No available slots left
+                        </Button>
+                      </div>
+                    )}
                   </Modal.Footer>
                 </form>
               </Surface>

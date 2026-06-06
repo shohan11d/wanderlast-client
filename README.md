@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎓 MediQueue – Tutor Booking System
 
-## Getting Started
+MediQueue is a dynamic tutor scheduling web application where students can seamlessly discover tutors, filter classes by subject or availability, and book online learning sessions with auto-generated session tokens. The system automates real-time slot tracking and provides comprehensive dashboard management tools for both students and tutors.
 
-First, run the development server:
+**🔗 [Live Site Deployment Link](https://your-live-site-url.com)**
 
+---
+
+## ✨ Key Features
+
+* **⚡ Real-Time Atomic Slot Reservation:** Features smart, database-driven allocation logic that automatically decreases tutor slot availability upon successful checkout and prevents booking when limits reach zero.
+* **🌓 Seamless Dark & Light Mode:** Includes a responsive site-wide theme context provider accessible right from the navbar, perfectly synchronizing your browsing layout to match your workspace preference.
+* **🔍 Multi-Layer Search & Filtering:** Offers instant server-side data extraction combining case-insensitive `$regex` matching for tutor names along with `$gte` and `$lte` chronological date-range inputs.
+* **🛡️ Secure JWT Session Security:** Private dashboard pathways and sensitive actions are verified with a secure backend cryptographic authorization layer using JSON Web Tokens (JWT) stored safely in client states.
+* **📋 Intuitive Grid Layouts & CRUD Dashboards:** Built using structural Tailwind CSS configurations, giving users access to modal-based entry forms, responsive layout grids, and interactive data tables with real-time status patches.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** React (Vite), React Router DOM (v6), Tailwind CSS, Lucide React (Icons), React Hot Toast / SweetAlert2
+* **Backend:** Node.js, Express.js, MongoDB
+* **Authentication:** Firebase Auth (Google Sign-In & Email/Password validation) + JSON Web Tokens (JWT)
+
+---
+
+## 🚀 Local Installation & Configuration
+
+Follow these steps to spin up the local development environment:
+
+1. **Clone the repository:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-r
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-r
-You cartsrtn check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   git clone [https://github.com/your-username/mediqueue-client.git](https://github.com/your-username/mediqueue-client.git)
+   cd mediqueue-client
